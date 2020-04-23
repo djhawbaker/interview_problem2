@@ -183,6 +183,7 @@ def checkForWinMove(player):
 
     Args: 
         player -- Which player to check for
+
     Returns:
         move -- Winning move for input player 
                 else None
@@ -211,10 +212,11 @@ def checkForWinMove(player):
             else:
                 winningMove = tile
 
-            # If two of the tiles are the players and the 3rd is empty
-            # That's the winning move
-            if (playerTileCount is 2):
-                return winningMove
+        # If two of the tiles are the players and the 3rd is empty
+        # That's the winning move
+        if (playerTileCount is 2 and winningMove is not None):
+            move = winningMove
+            break
 
     return move
 
