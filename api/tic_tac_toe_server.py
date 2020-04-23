@@ -2,31 +2,71 @@
 import time
 import random
 
-from flask import Flask
+from flask import Flask, request
 
 app = Flask(__name__)
 
 random.seed()
 
-@app.route('/game', methods=['GET', 'POST'])
-def getData(tile=None):
-    return {'move': getMove(tile), 'game_result': checkWinner(), 'taunt': getTaunt()}
+# Initialize an empty game board
+board = [None] * 9
+remainingTiles = list(range(9))
 
 
-def getMove(tile):
+@app.route('/game', methods=['POST'])
+def getData():
+    aiMove = None
+    new_game = False
+    
+    req_data = request.get_json()
+
+    if (req_data.get('reset') is not None):
+        newGame()   
+        new_game = True
+
+    elif (req_data.get('player_move') is not None):
+        aiMove = getMove(req_data.get('player_move'))
+
+    return {'move': aiMove, 'game_result': checkWinner(), 'taunt': getTaunt(new_game)}
+
+def getMove(player_move):
     """Returns what move the AI will make
 
     Args: 
-        tile -- players move
+        player_move -- players move
 
     Returns:
         AI move tile number 
-        1 2 3
-        4 5 6
-        7 8 9
+        0 1 2
+        3 4 5 
+        6 7 8 
     """
-    # TODO
-    move = 4
+    move = None
+    # Set player's move in board 
+    if (player_move is not None):
+        board[player_move] = 'X'
+        # Verify the tile is still in the list
+        if (player_move in remainingTiles):
+            remainingTiles.remove(player_move)
+
+        # Make sure the player didn't win (can't happen, but just to be safe)
+        #checkWinner()
+
+
+        # Check to see if a move will win the game
+        """
+        winMove = checkForWinMove()
+        if (winMove):
+            move = winMove
+        elif (
+        """
+
+        # Select a random remaining tile
+        if (remainingTiles):
+            move = random.choice(remainingTiles)
+            remainingTiles.remove(move)
+        else:
+            move = None
 
     return move
 
@@ -45,7 +85,18 @@ def checkWinner():
     return None
 
 
-def getTaunt():
+def newGame():
+    """Resets the game board"""
+    board = [None] * 9
+    remainingTiles = list(range(9))
+
+
+def getTaunt(new_game):
     taunts = ["You can't beat me!", "Beat me if you can!"]
+
+    if (not new_game):
+        taunts += ["You call that a move?!", "Nice try!"]
+
     return random.choice(taunts)
+
 

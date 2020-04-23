@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './game.css';
 
 function Tile(props) {
@@ -81,7 +81,7 @@ class Game extends React.Component {
     }, []);
   }
 
-  handleClick(i) {
+  handleTileClick(i) {
      const newTiles = this.state.tiles.slice();
 
      if (newTiles[i]) {
@@ -90,7 +90,7 @@ class Game extends React.Component {
      newTiles[i] = 'X';
 
      // Tell the server what move was made 
-     postData('/game', {player_move: i}).then((data) => {
+     postData('/game', {'player_move': i}).then((data) => {
          // Set the AI's move
          newTiles[data.move] = 'O';
 
@@ -104,6 +104,8 @@ class Game extends React.Component {
      });
   }
 
+
+
   render() {
       const currentTiles = this.state.tiles;
 
@@ -116,7 +118,7 @@ class Game extends React.Component {
             </div>
               <Board
                 tiles={currentTiles}
-                onClick={i => this.handleClick(i)}
+                onClick={i => this.handleTileClick(i)}
               />
               <div className="Game-info">
                 <div>{"AI: " + this.state.taunt}</div>
