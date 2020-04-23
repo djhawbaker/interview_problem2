@@ -10,14 +10,6 @@ function Tile(props) {
 }
 
 class Board extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        tiles: Array(9).fill(null)
-    }
-
-
-  }
 
   renderTile(i) {
     return (
@@ -51,40 +43,90 @@ class Board extends React.Component {
   }
 }
 
-function Game() {
+async function postData(url = '', data = {}) {
+    const response = await fetch(url, {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(data)
+    });
 
-  const [taunt, setTaunt] = useState("");
-  const [next_move, setMove] = useState(0);
-  const [game_result, setResult] = useState(0);
+    return response.json();
+}
 
-  const tiles = Array(9).fill(null);
+class Game extends React.Component {
 
-  useEffect(() => {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+        tiles: Array(9).fill(null),
+        moveNumber: 0,
+        taunt: '',
+        next_move: 0,
+        game_result: null
+    };
+
     fetch('/game').then(res => res.json()).then(data => {
-        setTaunt(data.taunt);
-        setMove(data.move);
-        setResult(data.game_result);
-     })
-  }, []);
+        this.state.taunt = data.taunt;
+        this.state.next_move = data.move;
+        this.state.game_result = data.game_result;
+    
+    }, []);
+  }
 
-  return (
-    <div className="Game">
-      <div className="Game-title">
-        <div>{"Tic Tac Toe"}</div>
-        <div className="Game-welcome">
-          {"Welcome to the game. Want to play?"}
-        </div>
-          <Board
-            tiles={tiles}
-          />
-          <div className="Game-info">
-            <div>{"AI: " + taunt}</div>
-            <div>{"Next Move: " + next_move}</div>
-            <div>{"Game Result: " + game_result}</div>
+  handleClick(i) {
+     const newTiles = this.state.tiles.slice();
+
+     if (newTiles[i]) {
+        return;
+     }
+     newTiles[i] = 'X';
+
+     // Tell the server what move was made 
+     postData('/game', {player_move: i}).then((data) => {
+         // Set the AI's move
+         newTiles[data.move] = 'O';
+
+         // Update local states
+         this.setState({
+            tiles: newTiles,
+            taunt: data.taunt,
+            next_move: data.move,
+            game_result: data.game_result
+         });
+     });
+  }
+
+  render() {
+      const currentTiles = this.state.tiles;
+
+      return (
+        <div className="Game">
+          <div className="Game-title">
+            <div>{"Tic Tac Toe"}</div>
+            <div className="Game-welcome">
+              {"Welcome to the game. Want to play?"}
+            </div>
+              <Board
+                tiles={currentTiles}
+                onClick={i => this.handleClick(i)}
+              />
+              <div className="Game-info">
+                <div>{"AI: " + this.state.taunt}</div>
+                <div>{"Next Move: " + this.state.next_move}</div>
+                <div>{"Game Result: " + this.state.game_result}</div>
+              </div>
           </div>
-      </div>
-    </div>
-  );
+        </div>
+      );
+  }
 }
 
 export default Game;

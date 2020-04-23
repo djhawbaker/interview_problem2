@@ -8,22 +8,25 @@ app = Flask(__name__)
 
 random.seed()
 
-@app.route('/game')
-def getData():
-    return {'move': getMove(), 'game_result': checkWinner(), 'taunt': getTaunt()}
+@app.route('/game', methods=['GET', 'POST'])
+def getData(tile=None):
+    return {'move': getMove(tile), 'game_result': checkWinner(), 'taunt': getTaunt()}
 
 
-def getMove():
+def getMove(tile):
     """Returns what move the AI will make
 
+    Args: 
+        tile -- players move
+
     Returns:
-        cell number 
+        AI move tile number 
         1 2 3
         4 5 6
         7 8 9
     """
     # TODO
-    move = 5
+    move = 4
 
     return move
 
