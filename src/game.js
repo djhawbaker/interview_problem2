@@ -104,10 +104,24 @@ class Game extends React.Component {
      });
   }
 
+  handleResetClick() {
+     // Tell the server to reset the game 
+     postData('/game', {'reset': true}).then((data) => {
+
+         // Update local states
+         this.setState({
+            tiles: Array(9).fill(null),
+            taunt: data.taunt,
+            next_move: data.move,
+            game_result: data.game_result
+         });
+     });
+  }
 
 
   render() {
       const currentTiles = this.state.tiles;
+
 
       return (
         <div className="Game">
@@ -121,6 +135,7 @@ class Game extends React.Component {
                 onClick={i => this.handleTileClick(i)}
               />
               <div className="Game-info">
+                <button onClick={() => this.handleResetClick()}>{"New Game"}</button>
                 <div>{"AI: " + this.state.taunt}</div>
                 <div>{"Next Move: " + this.state.next_move}</div>
                 <div>{"Game Result: " + this.state.game_result}</div>

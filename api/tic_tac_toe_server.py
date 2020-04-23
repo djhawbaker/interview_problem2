@@ -20,7 +20,7 @@ def getData():
     
     req_data = request.get_json()
 
-    if (req_data.get('reset') is not None):
+    if (req_data.get('reset') is True):
         newGame()   
         new_game = True
 
