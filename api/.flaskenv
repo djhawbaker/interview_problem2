@@ -1,0 +1,2 @@
+FLASK_APP=tic_tac_toe_server.py
+FLASK_ENV=development
