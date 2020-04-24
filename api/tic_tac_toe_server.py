@@ -1,22 +1,18 @@
 #!/usr/bin/env python3
-import time
 import random
 
 from flask import Flask, request
 
 app = Flask(__name__)
 
+# Setup the seed for the random selection of tiles
 random.seed()
-
 
 """
 TODO
-- convert game into a class for organization and to handle multiple games
+- convert game into a class for organization and to avoid global variables
 - Add user UUIDs to be passed between client and server
     - Allows for multiple games to be played at once
-
-
-
 """
 
 # Initialize an empty game board
@@ -41,8 +37,19 @@ winningLines = [
     [2,4,6]
 ]
 
+
 @app.route('/game', methods=['POST'])
 def getData():
+    """Route to get the player's move and send back the AI's move
+    
+    Args:
+        player_move -- tile the player selected
+
+    Returns:
+        move -- The AI's move
+        game_result -- None or the winner or Draw
+        taunt -- A taunt message from the AI
+    """
     aiMove = None
     new_game = False
     
@@ -57,13 +64,16 @@ def getData():
 
     return {'move': aiMove, 'game_result': winner, 'taunt': getTaunt(new_game)}
 
+
 @app.route('/reset', methods=['POST'])
 def resetGame():
+    """Route to reset the game when the button is pressed"""
     aiMove = None
 
     newGame()   
 
     return {'move': aiMove, 'game_result': None, 'taunt': getTaunt(new_game=True)}
+
 
 def getMove(player_move):
     """Returns what move the AI will make
@@ -178,6 +188,7 @@ def getMove(player_move):
 
     return move
 
+
 def checkForWinMove(player):
     """AI logic to see if it can win in 1 move
 
@@ -220,62 +231,36 @@ def checkForWinMove(player):
 
     return move
 
+
 def pickCenter():
+    """Picks the center tile if available"""
     move = None
     
     # Pick the center
     if (board[center] is None):
         move = center
 
-    """
-    # If center taken pick a side
-    elif (availableSides):
-        move = pickSide()
-
-    # If all sides are taken pick a corner
-    else:
-        move = pickCorner()
-    """
-
     return move
 
 
-
 def pickCorner():
+    """Picks a corner tile if available"""
     move = None
 
     # Pick a corner
     if (availableCorners):
         move = random.choice(availableCorners)
 
-    """
-    # If all corners taken pick the center
-    elif (board[center] is None):
-        move = pickCenter()
-
-    # If center is also taken pick a side
-    else:
-        move = pickSide()
-    """
-
     return move
 
+
 def pickSide():
+    """Picks a side tile if available"""
     move = None
     
     # Pick a side
     if (availableSides):
         move = random.choice(availableSides)
-
-    """
-    # If all sides taken pick the center
-    elif (board[center] is None):
-        move = pickCenter()
-
-    # If center is also taken pick a corner
-    else:
-        move = pickCorner()
-    """
 
     return move
 
@@ -313,8 +298,13 @@ def newGame():
     availableCorners = [0, 2, 6, 8]
     availableSides = [1, 3, 5, 7]
 
+
 def getTaunt(new_game):
-    """Gets a taunt to send to the player based on the state of the game"""
+    """Gets a taunt to send to the player based on the state of the game
+    
+    Args:
+        new_game -- bool if it's a new game or not
+    """
     pre_game_taunts = [
         "Do you dare to challenge the champion?", 
         "You can't beat me!", 
@@ -343,6 +333,7 @@ def getTaunt(new_game):
         "That shouldn't have been able to happen..."
     ]
 
+    # Select the taunt based on the game status
     if (new_game):
         taunts = pre_game_taunts
     elif (winner == 'O'):
@@ -355,5 +346,3 @@ def getTaunt(new_game):
         taunts = mid_game_taunts
 
     return random.choice(taunts)
-
-
