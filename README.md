@@ -44,6 +44,7 @@ The following packages need to be installed on the system before running
 - [Python3](https://www.python.org/)
 
 Create a virtual environment within the api directory to hold the required libraries 
+
 Unix based
 
     cd api
@@ -59,7 +60,8 @@ Windows based
 Then install the required libraries
 
     pip3 install flask python-dotenv
-
+    yarn add react
+    
 ## Run Instructions
 
 Start the server app
