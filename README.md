@@ -38,7 +38,10 @@ For a little extra credit:
 
 ## Setup environment
 
-Assumes Python3 and pip are installed already
+The following packages need to be installed on the system before running
+- [Node.js](https://nodejs.org/en/)
+- [Yarn](https://yarnpkg.com/)
+- [Python3](https://www.python.org/)
 
 Create a virtual environment within the api directory to hold the required libraries 
 Unix based
@@ -55,7 +58,7 @@ Windows based
 
 Then install the required libraries
 
-    pip install flask python-dotenv
+    pip3 install flask python-dotenv
 
 ## Run Instructions
 
