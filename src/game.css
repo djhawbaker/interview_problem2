@@ -29,6 +29,14 @@
   color: white;
 }
 
+.Game-signature {
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  font-size: calc(5px + 2vmin);
+  color: white;
+}
+
 .board-row:after {
   clear: both;
   content: "";

@@ -163,6 +163,9 @@ class Game extends React.Component {
               <div className="Game-info">
                 <button onClick={() => this.handleResetClick()}>{"New Game"}</button>
               </div>
+              <div className="Game-signature">
+                <div>{"Created by David Hawbaker"}</div>
+              </div>
           </div>
         </div>
       );
