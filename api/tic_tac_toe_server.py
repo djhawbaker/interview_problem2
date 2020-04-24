@@ -131,6 +131,16 @@ def getMove(player_move):
                     if (board[center] is None):
                         move = pickCenter()
 
+                    # If X is in the center then pick a corner else pick a side
+                    elif (board[center] is 'X'):
+                        # If the center by X pick a corner
+                        if (availableCorners):
+                            move = pickCorner()
+
+                        # If all corners are taken pick a side 
+                        else:
+                            move = pickSide()
+
                     # If the center is taken pick a side
                     elif (availableSides):
                         move = pickSide()
