@@ -1,71 +1,75 @@
-# NOTE, this is still a work in progress
+# Instructions
+
+1. Create a program that can interactively play the game of Tic-Tac-Toe against a human 
+   player. 
+   * The program should win or draw, but never lose.
+   * The human player should make the first move.
+   * The program should announce the result of the game before clearing the board for 
+     another round of play.
+1. A git repo has been initialized in the project root - commit early and often, with good messages.
+
+When you've completed your submission, zip or tar the project back up, and be sure to include
+your `.git` folder so we can see your commit history.
+
+We are more interested in getting a view into how you approach the problem than 
+anything else, so a good commit history is vital.
+
+This isn't a timed test, so don't think of the commit history as being a measure of 
+pace - we're not looking at that.
+We understand this is something you'll be working on in between other things.
+If, for some reason, you feel unable to complete the entire exercise, that's fine.
+Just try to give us enough code to look at to get a sense of your approach.
+
+# Implementation Guidelines
+
+Your implementation should meet the following requirements:
+
+* The game logic should be executed server-side (you pick the language/framework but we 
+  use a mix Django and Flask in Python).
+* The interface for the game should be a JavaScript Single Page Application (SPA) running
+  in a browser (again, you pick the frameworks/toolchains but we use a mix of React and Vue).
+* You should rewrite this `README.md` to include build/run instructions for your apps 
+  (both client and server).
+
+For a little extra credit:
+
+* The SPA should _not_ be hosted by the server-side app, but instead through a separate 
+  server process (the client app should be completely standalone).
+
+## Setup environment
+
+Assumes Python3 and pip are installed already
+
+Create a virtual environment within the api directory to hold the required libraries 
+Unix based
+
+    cd api
+    python3 -m venv venv
+    source venv/bin/activate
+
+Windows based
+
+    cd api
+    python -m venv venv
+    venv\Scripts\activate
+
+Then install the required libraries
+
+    pip install flask python-dotenv
+
+## Run Instructions
+
+Start the server app
+
+    cd api
+    yarn start-api
+
+In a separate terminal start the client app from the root of the project
+
+    yarn start
+
+This should open a web browser running the game that is talking with the server AI
+
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
